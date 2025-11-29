@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- 1. 設定網頁標題與版面 ---
-st.set_page_config(page_title="申請研究所自傳生成系統 v2.1", page_icon="🎓", layout="centered")
+st.set_page_config(page_title="申請研究所自傳生成系統 v2.2", page_icon="🎓", layout="centered")
 
 st.title("🎓 申請研究所自傳生成系統")
 st.markdown("""
@@ -22,7 +22,6 @@ with st.form("autobiography_form"):
     st.header("1. 個人基本資料 (Personal Profile)")
     col1, col2 = st.columns(2)
     
-    # 改用物件導向寫法，避免縮排錯誤
     name = col1.text_input("姓名", value="陳瑋承")
     status = col1.selectbox("目前身分", ["應屆畢業生", "已畢業", "在職中"])
     
@@ -45,7 +44,7 @@ with st.form("autobiography_form"):
     target_dept = col_t1.text_input("目標系所全稱", value="中國文學系博士班")
     target_group = col_t2.text_input("欲申請組別 (若無可留空)", value="古文字學組")
     
-    # 使用安全的參數寫法
+    # 使用多行字串寫法，避免複製出錯
     dept_feature = st.text_area(
         "吸引您的系所特色 (必填)", 
         height=100,
@@ -71,4 +70,52 @@ with st.form("autobiography_form"):
     st.markdown("---")
 
     # 🏆 第四類：經歷與軟實力
-    st.header("4. 經歷與軟實力 (Experience &
+    # 這裡將標題縮短並分開處理，避免語法錯誤
+    st.header("4. 經歷與軟實力")
+    st.caption("請列出最具代表性的經歷，並提供一個展現個人特質的故事。")
+    
+    st.markdown("**關鍵成就 (建議列出 3 項)**")
+    exp_1 = st.text_input("經歷/成就 1", value="發表兩篇數位人文相關論文於研究生研討會")
+    exp_2 = st.text_input("經歷/成就 2", value="擔任學報編輯助理三年，熟悉學術行政")
+    exp_3 = st.text_input("經歷/成就 3", value="兩度擔任國際研討會總召，具備大型活動組織能力")
+
+    story = st.text_area("展現韌性/特質的小故事 (一句話)", value="半工半讀完成學業，並曾與母親合開早餐店，這段經歷培養了我解決問題的行動力。")
+
+    st.markdown("---")
+
+    # 🔭 第五類：未來規劃
+    st.header("5. 未來展望 (Future Goals)")
+    short_term = st.text_area("短期目標 (入學後)", height=80, value="深入探討漢字構形類化，並結合數位工具研究降低錯字率的方法。")
+    long_term = st.text_input("長期目標 (畢業後)", value="將研究成果應用於對外華語教學，成為該領域的跨域學者。")
+
+    # 送出按鈕
+    submitted = st.form_submit_button("✨ 生成自傳")
+
+# --- 3. 生成邏輯與模板 ---
+
+if submitted:
+    # 邏輯處理：組合字串
+    group_str = f"【{target_group}】" if target_group else ""
+    prof_str = f"我尤其仰慕貴所 **{target_professor}** 在該領域的卓越研究，渴望能受其指導。" if target_professor else ""
+    skill_str = f"此外，我曾{other_academic_skill}，為進階研究打下基礎。" if other_academic_skill else ""
+    
+    # 經歷列表格式化
+    exp_list = [exp_1, exp_2, exp_3]
+    exp_formatted = "\n".join([f"* {item}" for item in exp_list if item])
+
+    # 身份開場白調整
+    intro_status = ""
+    if status == "應屆畢業生":
+        intro_status = f"我是{name}，目前就讀於{highest_school} {highest_dept}。"
+    elif status == "已畢業":
+        intro_status = f"我是{name}，畢業於{highest_school} {highest_dept}。"
+    else:
+        intro_status = f"我是{name}，畢業於{highest_school} {highest_dept}，目前在職中。"
+
+    # --- 自傳全文模板 ---
+    autobiography_text = f"""
+{target_school} {target_dept} 申請自傳
+==================================================
+
+### 一、 前言與申請動機
+{intro_status}我對 **{research_interests}** 的研究懷抱高度熱忱。深信 **{target_school} {target_dept}** 在「**{dept_feature}**」方面具備頂尖資源，是能讓我深化 **{group_str}** 研究的最佳學術殿堂。我具備紮實的

@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import datetime
 
 # --- 1. 設定網頁標題與版面 ---
 st.set_page_config(page_title="申請研究所自傳生成系統 v2.0", page_icon="🎓", layout="centered")
@@ -47,4 +46,21 @@ with st.form("autobiography_form"):
     with col_t2:
         target_group = st.text_input("欲申請組別 (若無可留空)", value="古文字學組")
     
-    dept_feature = st.text_area("
+    # 修改處：將參數換行排列，避免複製時出錯
+    dept_feature = st.text_area(
+        "吸引您的系所特色 (必填)", 
+        height=100,
+        value="貴所在「出土文獻與古典學」領域具備頂尖的研究資源，且擁有豐富的古文字數位資料庫。"
+    )
+    
+    target_professor = st.text_input("目標指導教授 (選填)", placeholder="例如：曾昱夫 教授")
+
+    st.markdown("---")
+
+    # 📚 第三類：學術背景與表現
+    st.header("3. 學術背景 (Academic Background)")
+    st.caption("證明您的學術基礎足以勝任研究所課業。")
+    research_interests = st.text_input("核心研究領域/關鍵字", value="文字學、漢字教學、數位人文")
+    
+    col_a1, col_a2 = st.columns(2)
+    with

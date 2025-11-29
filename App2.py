@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- 1. 設定網頁標題與版面 ---
-st.set_page_config(page_title="申請研究所自傳生成系統 v2.0", page_icon="🎓", layout="centered")
+st.set_page_config(page_title="申請研究所自傳生成系統 v2.1", page_icon="🎓", layout="centered")
 
 st.title("🎓 申請研究所自傳生成系統")
 st.markdown("""
@@ -21,32 +21,31 @@ with st.form("autobiography_form"):
     # 📌 第一類：基本身分資料
     st.header("1. 個人基本資料 (Personal Profile)")
     col1, col2 = st.columns(2)
-    with col1:
-        name = st.text_input("姓名", value="陳瑋承")
-        status = st.selectbox("目前身分", ["應屆畢業生", "已畢業", "在職中"])
-    with col2:
-        highest_school = st.text_input("最高學歷學校", value="國立臺北大學")
-        highest_dept = st.text_input("最高學歷系所", value="中國文學系碩士")
+    
+    # 改用物件導向寫法，避免縮排錯誤
+    name = col1.text_input("姓名", value="陳瑋承")
+    status = col1.selectbox("目前身分", ["應屆畢業生", "已畢業", "在職中"])
+    
+    highest_school = col2.text_input("最高學歷學校", value="國立臺北大學")
+    highest_dept = col2.text_input("最高學歷系所", value="中國文學系碩士")
     
     col3, col4 = st.columns(2)
-    with col3:
-        phone = st.text_input("聯絡電話", placeholder="0912-345-678")
-    with col4:
-        email = st.text_input("電子郵件", placeholder="example@email.com")
+    phone = col3.text_input("聯絡電話", placeholder="0912-345-678")
+    email = col4.text_input("電子郵件", placeholder="example@email.com")
 
     st.markdown("---")
 
     # 🎯 第二類：申請目標客製化
     st.header("2. 申請動機 (Motivation)")
     st.caption("此部分將決定自傳的開頭與結尾，請務必針對目標校系填寫。")
-    target_school = st.text_input("目標學校全稱", value="國立臺灣大學")
-    col_t1, col_t2 = st.columns(2)
-    with col_t1:
-        target_dept = st.text_input("目標系所全稱", value="中國文學系博士班")
-    with col_t2:
-        target_group = st.text_input("欲申請組別 (若無可留空)", value="古文字學組")
     
-    # 修改處：將參數換行排列，避免複製時出錯
+    target_school = st.text_input("目標學校全稱", value="國立臺灣大學")
+    
+    col_t1, col_t2 = st.columns(2)
+    target_dept = col_t1.text_input("目標系所全稱", value="中國文學系博士班")
+    target_group = col_t2.text_input("欲申請組別 (若無可留空)", value="古文字學組")
+    
+    # 使用安全的參數寫法
     dept_feature = st.text_area(
         "吸引您的系所特色 (必填)", 
         height=100,
@@ -60,7 +59,16 @@ with st.form("autobiography_form"):
     # 📚 第三類：學術背景與表現
     st.header("3. 學術背景 (Academic Background)")
     st.caption("證明您的學術基礎足以勝任研究所課業。")
+    
     research_interests = st.text_input("核心研究領域/關鍵字", value="文字學、漢字教學、數位人文")
     
     col_a1, col_a2 = st.columns(2)
-    with
+    academic_highlight = col_a1.text_input("學業量化表現", placeholder="例如：系排前 5%、曾獲書卷獎")
+    thesis_topic = col_a2.text_input("過去專題/論文主題", value="部件與圖像結合之漢字教學研究")
+    
+    other_academic_skill = st.text_input("其他學術技能/修課亮點 (選填)", placeholder="例如：修習「古籍數位化」課程，熟悉資料庫建置")
+
+    st.markdown("---")
+
+    # 🏆 第四類：經歷與軟實力
+    st.header("4. 經歷與軟實力 (Experience &

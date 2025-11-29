@@ -60,7 +60,7 @@ with st.form("autobiography_form"):
     research_interests = st.text_input("核心研究領域/關鍵字 (必填)", placeholder="例如：文字學、漢字教學、數位人文")
     
     col_a1, col_a2 = st.columns(2)
-    academic_highlight = col_a1.text_input("學業量化表現", placeholder="例如：系排前 5%、曾獲書卷獎")
+    academic_highlight = col_a1.text_input("學業表現", placeholder="例如：系排前 5%、曾獲書卷獎")
     thesis_topic = col_a2.text_input("過去專題/論文主題", placeholder="例如：部件與圖像結合之漢字教學研究")
     
     other_academic_skill = st.text_input("其他學術技能/修課亮點 (選填)", placeholder="例如：修習「古籍數位化」課程，熟悉資料庫建置")
@@ -193,6 +193,7 @@ if submitted:
             file_name=f"{name}_{target_school}_自傳.txt",
             mime="text/plain"
         )
+
 
 
 

@@ -127,4 +127,70 @@ if submitted:
 
         # 經歷列表格式化
         exp_list = [exp_1, exp_2, exp_3]
-        valid_exp = [item for item in exp
+        valid_exp = [item for item in exp_list if item]
+        if valid_exp:
+            exp_formatted = "\n".join([f"* {item}" for item in valid_exp])
+        else:
+            exp_formatted = "* (請填寫您的相關經歷)"
+
+        # 身份開場白調整
+        intro_status = ""
+        if status == "應屆畢業生":
+            intro_status = f"我是{name}，目前就讀於{highest_school} {highest_dept}。"
+        elif status == "已畢業":
+            intro_status = f"我是{name}，畢業於{highest_school} {highest_dept}。"
+        else:
+            intro_status = f"我是{name}，畢業於{highest_school} {highest_dept}，目前在職中。"
+
+        # --- 自傳全文組合 ---
+        
+        lines = []
+        lines.append(f"{target_school} {target_dept} 申請自傳")
+        lines.append("=" * 50)
+        lines.append("")
+        
+        lines.append("### 一、 前言與申請動機")
+        lines.append(f"{intro_status}我對 **{research_interests}** 的研究懷抱高度熱忱。深信 **{target_school} {target_dept}** 在「**{dept_feature}**」方面具備頂尖資源，是能讓我深化 **{group_str}** 研究的最佳學術殿堂。我具備紮實的學術基礎與豐富的實務經驗，希望能有機會加入貴所，貢獻所學。")
+        lines.append("")
+        
+        lines.append("### 二、 成長背景與個人特質")
+        # 修改重點：將 traits_sentence 和 motto_sentence 組合進去
+        lines.append(f"{traits_sentence}{motto_sentence}在成長過程中，我因 **{story}**，培養出強大的**執行力與解決問題的能力**。這段經歷使我具備獨立思考的習慣，並能以樂觀積極的態度面對學術研究上的各種挑戰。")
+        lines.append("")
+
+        lines.append("### 三、 學術背景與求學歷程")
+        lines.append(f"在 **{highest_school}** 求學期間，我致力於 **{research_interests}** 領域的鑽研，學業表現優異，**{academic_highlight}**。我的核心研究主題為「**{thesis_topic}**」，這項研究經驗讓我掌握了獨立研究的方法論。{skill_str}這些訓練使我具備了進入研究所所需的知識儲備與數據分析能力。")
+        lines.append("")
+
+        lines.append("### 四、 經歷與成果")
+        lines.append("除了學術表現，我亦擁有豐富的實務經驗，展現出優異的組織與執行能力。我的核心經歷如下：")
+        lines.append(exp_formatted)
+        lines.append("這些經歷不僅磨練了我的軟實力，更讓我學會如何將理論應用於實際問題的解決上。")
+        lines.append("")
+
+        lines.append("### 五、 研究方向與未來展望")
+        lines.append(f"若能有幸進入貴所，我計畫延續過去的研究基礎。{prof_str}短期內，我希望能 **{short_term}**。長期而言，我期許自己能 **{long_term}**，成為 **{research_interests}** 領域的專業人才，並為學術界與實務界帶來具體貢獻。")
+        lines.append("")
+
+        lines.append("### 六、 結論")
+        lines.append(f"綜上所述，我深信我在 **{research_interests}** 上的研究熱忱、數位化能力以及實務經驗，已為未來的學術研究做好充分準備。懇請貴所教授給予面試機會，讓我能親自說明我的學習成果與未來規劃。感謝您的審閱。")
+        lines.append("")
+        lines.append("-" * 50)
+        lines.append(f"申請人：{name}")
+        lines.append(f"聯絡電話：{phone}")
+        lines.append(f"Email：{email}")
+
+        # 將列表組合成最終文字
+        autobiography_text = "\n".join(lines)
+
+        # --- 4. 顯示與下載 ---
+        st.success("✅ 自傳生成成功！請檢視下方內容：")
+        
+        st.text_area("生成結果預覽", value=autobiography_text, height=600)
+        
+        st.download_button(
+            label="📥 下載自傳 (.txt)",
+            data=autobiography_text,
+            file_name=f"{name}_{target_school}_自傳.txt",
+            mime="text/plain"
+        )

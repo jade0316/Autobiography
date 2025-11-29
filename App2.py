@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- 1. 設定網頁標題與版面 ---
-st.set_page_config(page_title="申請研究所自傳生成系統 v4.1", page_icon="🎓", layout="centered")
+st.set_page_config(page_title="申請研究所自傳生成系統", layout="centered")
 
 st.title("申請研究所自傳生成系統")
 st.markdown("""
@@ -193,5 +193,6 @@ if submitted:
             file_name=f"{name}_{target_school}_自傳.txt",
             mime="text/plain"
         )
+
 
 
